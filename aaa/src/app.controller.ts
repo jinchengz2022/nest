@@ -1,4 +1,5 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, UseInterceptors } from '@nestjs/common';
+import { AaaInterceptor } from './aaa.interceptor';
 import { AppService } from './app.service';
 
 @Controller()
@@ -11,8 +12,9 @@ export class AppController {
   }
 
   @Get('h1')
-  getH1(name: string): string {
-    return this.appService.getHello() + name;
+  @UseInterceptors(AaaInterceptor)
+  getH1(): any {
+    return new Error('err');
   }
 
   @Get('h2')
