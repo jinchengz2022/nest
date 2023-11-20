@@ -5,7 +5,7 @@ import {
   Logger,
   NestInterceptor,
 } from '@nestjs/common';
-import { catchError, Observable, tap, throwError } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { AppService } from './app.service';
 
 @Injectable()
@@ -16,7 +16,7 @@ export class AaaInterceptor implements NestInterceptor {
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     // 使用tap执行额外操作，不会改变数据
-    const now = Date.now();
+    // const now = Date.now();
 
     return next.handle().pipe(
       catchError((err) => {
