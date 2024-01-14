@@ -1,9 +1,0 @@
-{
-  "devDependencies": {
-    "@types/multer": "^1.4.11"
-  },
-  "dependencies": {
-    "@types/express-session": "^1.17.10",
-    "express-session": "^1.17.3"
-  }
-}
