@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule } from '@nestjs/config';
-import { ConfigService } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { JwtModule } from '@nestjs/jwt';
 
 import { Role, Permission, User } from './user/entities/index.entity';
 import { AppController } from './app.controller';
@@ -12,16 +12,28 @@ import { EmailModule } from './email/email.module';
 
 @Module({
   imports: [
+    JwtModule.registerAsync({
+      global: true,
+      useFactory(configService: ConfigService) {
+        return {
+          secret: configService.get('jwt_secret'),
+          signOptions: {
+            expiresIn: '30m',
+          },
+        };
+      },
+      inject: [ConfigService],
+    }),
     ConfigModule.forRoot({ isGlobal: true, envFilePath: 'src/.env' }),
     TypeOrmModule.forRootAsync({
       useFactory(configService: ConfigService) {
         return {
           type: 'mysql',
-          host: 'localhost',
-          port: 3306,
-          username: 'root',
-          password: '202411',
-          database: 'meeting_room_system',
+          host: configService.get('mysql_server_host'),
+          port: configService.get('mysql_server_port'),
+          username: configService.get('mysql_server_username'),
+          password: configService.get('mysql_server_password'),
+          database: configService.get('mysql_server_database'),
           synchronize: true,
           poolSize: 10,
           entities: [Role, Permission, User],
