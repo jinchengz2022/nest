@@ -1,43 +1,46 @@
-import React from "react";
-import { Button, Form, Input, message } from "antd";
+import React, { useState } from "react";
+// import { Button, Form, Input, message } from "antd";
 import axios from "axios";
 
+import { FormItem } from "./FormItem";
+
 const App = () => {
-  const [form] = Form.useForm();
+  const [va, updateVa] = useState('asdasd')
+  // const [form] = Form.useForm();
 
-  const login = async (values) => {
-    try {
-      const { email, code } = form.getFieldsValue();
+  // const login = async (values) => {
+  //   try {
+  //     const { email, code } = form.getFieldsValue();
 
-      const res = await axios.post("http://localhost:3456/user/login", {
-        email,
-        code,
-      });
-      console.log({ res });
-      if (res.data.data) {
-        message.success("login success");
-      } else {
-        message.info(res.data.message);
-      }
-    } catch (error) {
-      message.error(error.message);
-    }
-  };
+  //     const res = await axios.post("http://localhost:3456/user/login", {
+  //       email,
+  //       code,
+  //     });
+  //     console.log({ res });
+  //     if (res.data.data) {
+  //       message.success("login success");
+  //     } else {
+  //       message.info(res.data.message);
+  //     }
+  //   } catch (error) {
+  //     message.error(error.message);
+  //   }
+  // };
 
-  const sendEmailCode = async () => {
-    const { email } = form.getFieldsValue();
-    const res = await axios.get(
-      `http://localhost:3456/email/getCode?address=${email}`
-    );
+  // const sendEmailCode = async () => {
+  //   const { email } = form.getFieldsValue();
+  //   const res = await axios.get(
+  //     `http://localhost:3456/email/getCode?address=${email}`
+  //   );
 
-    if (res.data) {
-      message.success("send success~");
-    }
-  };
+  //   if (res.data) {
+  //     message.success("send success~");
+  //   }
+  // };
 
   return (
     <div style={{ width: "500px", margin: "100px auto" }}>
-      <Form onFinish={login} form={form}>
+      {/* <Form onFinish={login} form={form}>
         <Form.Item
           label="邮箱"
           name="email"
@@ -73,7 +76,9 @@ const App = () => {
             登录
           </Button>
         </Form.Item>
-      </Form>
+      </Form> */}
+      <input value={va} onChange={(e) => updateVa(e.target.value)}/>
+      <FormItem name="asd" value="222"/>
     </div>
   );
 };
